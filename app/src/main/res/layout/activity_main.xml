@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mainBackground"
+    tools:context=".MainActivity">
+    
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topBar">
+        
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar"
+            app:layout_scrollEffect="compress"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <TextView
+                android:id="@+id/toolbarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/toolbartitle"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/card"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/card"
+                android:id="@+id/connectionCard">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/outputText"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:text="IDLE"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="50dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/serverButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="10dp"
+                        android:textColor="@color/card"
+                        android:text="Start Server"/>
+
+                    <Button
+                        android:id="@+id/clientButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="10dp"
+                        android:textColor="@color/card"
+                        android:text="Connect as Client"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/stopButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="10dp"
+                        android:textColor="@color/card"
+                        android:text="Disconnect"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/refreshDevices"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:layout_gravity="right"
+                        android:text="Refresh"
+                        android:textSize="16sp"
+                        android:textColor="@color/card"
+                        android:layout_marginEnd="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Server Device"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="16sp"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/deviceSelector"
+                        android:spinnerMode="dropdown"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:popupBackground="@color/toolbar"/>
+
+
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stopAlarm"
+                    android:layout_marginHorizontal="100dp"
+                    android:textColor="@color/card"
+                    android:text="Stop Alarm"
+                    android:layout_marginVertical="10dp"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reqPerm"
+                    android:layout_marginHorizontal="100dp"
+                    android:text="Request Permission"
+                    android:layout_marginVertical="10dp"
+                    android:visibility="invisible"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bluetooth"
+                    android:layout_marginHorizontal="100dp"
+                    android:text="Turn on Bluetooth!!"
+                    android:layout_marginVertical="10dp"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </ScrollView>
+
+</LinearLayout>
