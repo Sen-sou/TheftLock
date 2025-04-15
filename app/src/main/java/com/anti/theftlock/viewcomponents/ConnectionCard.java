@@ -2,19 +2,25 @@ package com.anti.theftlock.viewcomponents;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.anti.theftlock.R;
 import com.anti.theftlock.bluetoothService.CommunicationService;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
 
@@ -30,6 +36,7 @@ public class ConnectionCard {
     private Button stopAlarmButton;
     private Spinner pairedMenu;
     private TextView outputText;
+    private MaterialSwitch flashSwitch;
     private String TAG = "Connection Card";
     private MediaPlayer mediaPlayer;
     private ArrayList<String> pairedDevices;
@@ -50,6 +57,7 @@ public class ConnectionCard {
         stopAlarmButton = commCard.findViewById(R.id.stopAlarm);
         pairedMenu = commCard.findViewById(R.id.deviceSelector);
         outputText = commCard.findViewById(R.id.outputText);
+        flashSwitch = commCard.findViewById(R.id.flashSwitch);
 
         pairedDevices = new ArrayList<>();
 
@@ -80,9 +88,14 @@ public class ConnectionCard {
             mediaPlayer.pause();
             mediaPlayer.seekTo(0);
             stopAlarmButton.setEnabled(false);
+            communicationService.stopFlasing();
         });
 
         refreshSpinner();
+
+        flashSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            communicationService.setEnableFlashing(isChecked);
+        });
 
     }
 
@@ -119,6 +132,10 @@ public class ConnectionCard {
         } catch (SecurityException e) {
             Log.e(TAG, "onClick: " + e.getMessage());
         }
+    }
+
+    public void releaseFlash() {
+        communicationService.setEnableFlashing(false);
     }
 
     public void releaseMediaPlayer() {

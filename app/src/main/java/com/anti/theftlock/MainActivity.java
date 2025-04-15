@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         CommunicationService.mainAlive = false;
         connectionCard.releaseMediaPlayer();
+        connectionCard.releaseFlash();
         unbindService(serviceConnection);
         unregisterReceiver(bluetoothStateReceiver);
         Log.d(TAG, "onDestroy: service Unbinded");

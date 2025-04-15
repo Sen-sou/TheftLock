@@ -11,6 +11,8 @@ import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
@@ -100,6 +102,13 @@ public class CommunicationService extends Service {
 
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         bluetoothUtility.setMediaPlayer(mediaPlayer);
+    }
+
+    public void setEnableFlashing(boolean bool) {
+        bluetoothUtility.setFlashingEnabled(bool);
+    }
+    public void stopFlasing() {
+        bluetoothUtility.stopFlashing();
     }
 
     public boolean isBluetoothEnabled() {

@@ -7,6 +7,8 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anti.theftlock.R;
+import com.anti.theftlock.utility.FlashlightController;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,13 +52,19 @@ public class BluetoothUtility {
     private InputStream inputStream;
     private  OutputStream outputStream;
     private MediaPlayer mediaPlayer;
-
+    private FlashlightController flashlightController;
+    private boolean flashingEnabled = false;
 
     private BluetoothUtility(Context context, Activity activity) {
         this.bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         this.bluetoothAdapter = bluetoothManager.getAdapter();
         this.context = context;
         this.mainActivity = activity;
+        try {
+            this.flashlightController = new FlashlightController(context);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static synchronized BluetoothUtility getInstance(Context context, Activity activity) {
@@ -223,6 +232,17 @@ public class BluetoothUtility {
         this.mediaPlayer = mediaPlayer;
     }
 
+    public void setFlashingEnabled(boolean bool) {
+        flashingEnabled = bool;
+        if(!bool) {
+            flashlightController.stopFlashing();
+        }
+    }
+
+    public void stopFlashing() {
+        flashlightController.stopFlashing();
+    }
+
     public void setRunningState(String state) {
         runningState = state;
     }
@@ -256,8 +276,12 @@ public class BluetoothUtility {
             ((Button) mainActivity.findViewById(R.id.stopAlarm)).setEnabled(true);
             mediaPlayer.start();
             Toast.makeText(context, "Connection Lost! Alarm Triggered!", Toast.LENGTH_LONG).show();
+            if (flashingEnabled) {
+                flashlightController.startFlashing();
+            }
         });
     }
+
 
     public boolean isBluetoothEnabled() {
         return bluetoothAdapter.isEnabled();

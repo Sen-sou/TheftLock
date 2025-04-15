@@ -5,15 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/mainBackground"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-    
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topBar">
-        
+        android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-    
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,135 +48,143 @@
             app:cardCornerRadius="16dp">
 
             <LinearLayout
+                android:id="@+id/connectionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginVertical="30dp"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="30dp"
                 android:background="@color/card"
-                android:id="@+id/connectionCard">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/outputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/outputText"
-                    android:textAlignment="center"
-                    android:textSize="30sp"
-                    android:text="IDLE"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="50dp"
-                    />
+                    android:text="IDLE"
+                    android:textAlignment="center"
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/serverButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/buttonBackground"
-                        android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
-                        android:textColor="@color/card"
-                        android:text="Start Server"/>
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:text="Start Server"
+                        android:textColor="@color/card" />
 
                     <Button
                         android:id="@+id/clientButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/buttonBackground"
-                        android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
-                        android:textColor="@color/card"
-                        android:text="Connect as Client"/>
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:text="Connect as Client"
+                        android:textColor="@color/card" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/stopButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/buttonBackground"
-                        android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
-                        android:textColor="@color/card"
-                        android:text="Disconnect"/>
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/buttonBackground"
+                        android:text="Disconnect"
+                        android:textColor="@color/card" />
 
                     <Button
+                        android:id="@+id/refreshDevices"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/refreshDevices"
-                        android:backgroundTint="@color/buttonBackground"
                         android:layout_gravity="right"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/buttonBackground"
                         android:text="Refresh"
-                        android:textSize="16sp"
                         android:textColor="@color/card"
-                        android:layout_marginEnd="10dp"/>
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Server Device"
                         android:layout_marginVertical="10dp"
                         android:layout_marginStart="10dp"
-                        android:textSize="16sp"/>
+                        android:text="Select Server Device"
+                        android:textSize="16sp" />
 
                     <Spinner
+                        android:id="@+id/deviceSelector"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/deviceSelector"
-                        android:spinnerMode="dropdown"
-                        android:layout_weight="1"
                         android:layout_margin="10dp"
-                        android:popupBackground="@color/toolbar"/>
-
+                        android:layout_weight="1"
+                        android:popupBackground="@color/toolbar"
+                        android:spinnerMode="dropdown" />
 
 
                 </LinearLayout>
 
-                <Button
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/flashSwitch"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:text="Enable Flashing"
+                    android:layout_marginHorizontal="20dp"
+                    android:textColor="@color/textColor"
+                    android:backgroundTint="@color/buttonBackground"/>
+
+                <Button
                     android:id="@+id/stopAlarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="100dp"
-                    android:textColor="@color/card"
+                    android:layout_marginVertical="10dp"
                     android:text="Stop Alarm"
-                    android:layout_marginVertical="10dp"/>
+                    android:textColor="@color/card" />
 
                 <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/reqPerm"
-                    android:layout_marginHorizontal="100dp"
-                    android:text="Request Permission"
-                    android:layout_marginVertical="10dp"
-                    android:visibility="invisible"/>
-
-                <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bluetooth"
                     android:layout_marginHorizontal="100dp"
-                    android:text="Turn on Bluetooth!!"
                     android:layout_marginVertical="10dp"
-                    android:visibility="invisible"/>
+                    android:text="Request Permission"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/bluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="100dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="Turn on Bluetooth!!"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
