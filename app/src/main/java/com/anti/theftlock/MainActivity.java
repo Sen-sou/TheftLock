@@ -139,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE) != PackageManager.PERMISSION_GRANTED) {
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(
                         new String[] {
                                 Manifest.permission.POST_NOTIFICATIONS,
@@ -148,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
                                 Manifest.permission.BLUETOOTH_CONNECT,
                                 Manifest.permission.BLUETOOTH_SCAN,
                                 Manifest.permission.BLUETOOTH,
-                                Manifest.permission.BLUETOOTH_ADMIN
+                                Manifest.permission.BLUETOOTH_ADMIN,
+                                Manifest.permission.CAMERA
                         },
                         REQUEST_PERMISSIONS_CODE
                 );
@@ -232,6 +234,8 @@ public class MainActivity extends AppCompatActivity {
         CommunicationService.mainAlive = false;
         connectionCard.releaseMediaPlayer();
         connectionCard.releaseFlash();
+        connectionCard.releaseVibrate();
+        connectionCard.releaseCaptureAlert();
         unbindService(serviceConnection);
         unregisterReceiver(bluetoothStateReceiver);
         Log.d(TAG, "onDestroy: service Unbinded");

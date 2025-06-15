@@ -111,6 +111,23 @@ public class CommunicationService extends Service {
         bluetoothUtility.stopFlashing();
     }
 
+    public void setEnableVibrate(boolean bool) {
+        bluetoothUtility.setVibrateEnabled(bool);
+    }
+    public void stopVibrate() {
+        bluetoothUtility.stopVibrate();
+    }
+
+    public void setEnableCaptureAlert(boolean bool) {
+        bluetoothUtility.setCaptureAlertEnabled(bool);
+    }
+    public void stopCaptureAlert() {
+        bluetoothUtility.stopCaptureAlert();
+    }
+    public void shutdownCaptureAlert() {
+        bluetoothUtility.shutdownCaptureAlert();
+    }
+
     public boolean isBluetoothEnabled() {
         return bluetoothUtility.isBluetoothEnabled();
     }

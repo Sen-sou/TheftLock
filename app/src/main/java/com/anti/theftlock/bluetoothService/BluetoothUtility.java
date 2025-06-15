@@ -8,16 +8,20 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.LifecycleOwner;
+
 import com.anti.theftlock.R;
+import com.anti.theftlock.utility.CameraHandler;
+import com.anti.theftlock.utility.DeviceVibrator;
 import com.anti.theftlock.utility.FlashlightController;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -53,7 +57,11 @@ public class BluetoothUtility {
     private  OutputStream outputStream;
     private MediaPlayer mediaPlayer;
     private FlashlightController flashlightController;
+    private DeviceVibrator deviceVibrator;
+    private CameraHandler cameraHandler;
     private boolean flashingEnabled = false;
+    private boolean vibrateEnabled = false;
+    private boolean captureAlertEnabled = false;
 
     private BluetoothUtility(Context context, Activity activity) {
         this.bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -65,6 +73,9 @@ public class BluetoothUtility {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        deviceVibrator = new DeviceVibrator(context);
+        cameraHandler = new CameraHandler(context, (LifecycleOwner) activity);
+        initializeCameraHandler();
     }
 
     public static synchronized BluetoothUtility getInstance(Context context, Activity activity) {
@@ -83,6 +94,22 @@ public class BluetoothUtility {
         discoverDevices();
         runningState = IDLE_STATE;
 
+    }
+
+    private void initializeCameraHandler() {
+        cameraHandler.setOnPhotoCaptureListener(new CameraHandler.OnPhotoCaptureListener() {
+            @Override
+            public void onPhotoCaptured(File photoFile) {
+                String msg = "Photo saved: " + photoFile.getName();
+                Log.d(TAG, "onPhotoCaptured: " + msg);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                String msg = "Error: " + errorMessage;
+                Log.d(TAG, "onError: " + msg);
+            }
+        });
     }
 
     public boolean setServerDevice(String deviceName) {
@@ -238,9 +265,31 @@ public class BluetoothUtility {
             flashlightController.stopFlashing();
         }
     }
-
     public void stopFlashing() {
         flashlightController.stopFlashing();
+    }
+
+    public void setVibrateEnabled(boolean bool) {
+        vibrateEnabled = bool;
+        if (!bool) {
+            deviceVibrator.cancel();
+        }
+    }
+    public void stopVibrate() {
+        deviceVibrator.cancel();
+    }
+
+    public void setCaptureAlertEnabled(boolean bool) {
+        captureAlertEnabled = bool;
+        if (!bool) {
+            cameraHandler.stopPeriodicCapture();
+        }
+    }
+    public void stopCaptureAlert() {
+        cameraHandler.stopPeriodicCapture();
+    }
+    public void shutdownCaptureAlert() {
+        cameraHandler.shutdown();
     }
 
     public void setRunningState(String state) {
@@ -278,6 +327,12 @@ public class BluetoothUtility {
             Toast.makeText(context, "Connection Lost! Alarm Triggered!", Toast.LENGTH_LONG).show();
             if (flashingEnabled) {
                 flashlightController.startFlashing();
+            }
+            if (vibrateEnabled) {
+                deviceVibrator.vibrateWithTimeout(new long[]{0, 100, 100, 100, 100, 100, 500, 300, 100, 300, 100, 300, 500, 100, 100, 100, 100, 100}, 30000);
+            }
+            if (captureAlertEnabled) {
+                if (cameraHandler != null) cameraHandler.startPeriodicCapture(60000);
             }
         });
     }

@@ -37,6 +37,8 @@ public class ConnectionCard {
     private Spinner pairedMenu;
     private TextView outputText;
     private MaterialSwitch flashSwitch;
+    private MaterialSwitch vibrateSwitch;
+    private MaterialSwitch captureSwitch;
     private String TAG = "Connection Card";
     private MediaPlayer mediaPlayer;
     private ArrayList<String> pairedDevices;
@@ -58,6 +60,8 @@ public class ConnectionCard {
         pairedMenu = commCard.findViewById(R.id.deviceSelector);
         outputText = commCard.findViewById(R.id.outputText);
         flashSwitch = commCard.findViewById(R.id.flashSwitch);
+        vibrateSwitch = commCard.findViewById(R.id.vibrateSwitch);
+        captureSwitch = commCard.findViewById(R.id.captureAlert);
 
         pairedDevices = new ArrayList<>();
 
@@ -89,12 +93,22 @@ public class ConnectionCard {
             mediaPlayer.seekTo(0);
             stopAlarmButton.setEnabled(false);
             communicationService.stopFlasing();
+            communicationService.stopVibrate();
+            communicationService.stopCaptureAlert();
         });
 
         refreshSpinner();
 
         flashSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             communicationService.setEnableFlashing(isChecked);
+        });
+
+        vibrateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            communicationService.setEnableVibrate(isChecked);
+        });
+
+        captureSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->  {
+            communicationService.setEnableCaptureAlert(isChecked);
         });
 
     }
@@ -136,6 +150,12 @@ public class ConnectionCard {
 
     public void releaseFlash() {
         communicationService.setEnableFlashing(false);
+    }
+    public void releaseVibrate() {
+        communicationService.setEnableVibrate(false);
+    }
+    public void releaseCaptureAlert() {
+        communicationService.shutdownCaptureAlert();
     }
 
     public void releaseMediaPlayer() {
