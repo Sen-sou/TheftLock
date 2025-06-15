@@ -1,5 +1,5 @@
 # TheftLock
-##Anti-theft Android Application
+## Anti-theft Android Application
 
 **Description**:
 TheftLock is a security-focused Android application developed as a final year project to help protect users’ mobile devices from theft. The app provides proactive and reactive features that monitor and respond to suspicious activity when the device is unattended or at risk of being stolen.
